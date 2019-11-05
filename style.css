@@ -1,0 +1,75 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  line-height: 1.4;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 10px;
+  color: #dbdbdb;
+  background: linear-gradient(to top right, black, rgb(0, 0, 82)) fixed;
+  text-rendering: optimizeLegibility;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+.col {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+  max-width: 100%;
+  height: 60%;
+}
+
+[contenteditable] {
+  word-wrap: break-word;
+}
+
+.price::before {
+  content: 'Costs '
+}
+
+.price::after {
+  content: ' bruhs';
+}
+
+button {
+  background: linear-gradient(to bottom right, lightslategray, transparent);
+  border: 0;
+  border-radius: 1em;
+  padding: .5em;
+  color: #fff;
+  margin-left: 1em;
+  cursor: pointer;
+  transition: box-shadow .5s;
+}
+
+button:active {
+  box-shadow: inset 0 0 10px black;
+  border: none;
+  outline: none;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+fieldset {
+  background: url(https://jack5079.tk/bruh-beagle-2/beg.png);
+  background-position: 0 100%;
+  color: white;
+  display: inline;
+}
+
+legend {
+  color: black;
+  background: white;
+  border-radius: 1em;
+  padding: 0.2em;
+}
+
+#display {
+  height: 50vh;
+  width: 100%;
+}

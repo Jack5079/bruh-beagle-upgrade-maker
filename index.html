@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bruh Beagle 2 Upgrade Maker</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://unpkg.com/monaco-editor@0.7.0/min/vs/loader.js"></script>
+    <script>
+      require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.7.0/min/vs' } });
+
+      // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
+      // the default worker url location (used when creating WebWorkers). The problem here is that
+      // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
+      // a web worker through a same-domain script
+      window.MonacoEnvironment = {
+        getWorkerUrl: function (workerId, label) {
+          return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+        self.MonacoEnvironment = {
+          baseUrl: 'https://unpkg.com/monaco-editor@0.7.0/min/'
+        };
+        importScripts(https://unpkg.com/monaco-editor@0.7.0/min/vs/base/worker/workerMain.js');`
+          )}`;
+        }
+      };
+
+      require(["vs/editor/editor.main"], () => {
+        let scr = document.createElement('script')
+        scr.src = 'script.js'
+        scr.defer = true
+        document.head.appendChild(scr)
+      })
+    </script>
+  </head>
+
+  <body>
+    <div class="col">
+      <fieldset>
+        <legend>Metadata</legend>
+        <h2 contenteditable id="name">Example title</h2>
+        <p contenteditable id="desc">Example description</p>
+        <span contenteditable id="cost" class="price">0</span>
+        <button id="buy">Buy</button>
+      </fieldset>
+      <fieldset style="width: 50%">
+        <legend>onbuy()</legend>
+        <div id="container" style="height: 100%; width: 100%;"></div>
+      </fieldset>
+    </div>
+
+    <div id="display">
+
+    </div>
+  </body>
+
+</html>
