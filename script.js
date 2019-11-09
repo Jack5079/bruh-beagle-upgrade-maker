@@ -60,6 +60,16 @@ monaco.languages.registerCompletionItemProvider('javascript', {
         kind: monaco.languages.CompletionItemKind.Property,
         detail: 'HTMLDivElement',
         documentation: 'The HTML <div> containing the upgrade.'
+      },
+      {
+        label: 'hide',
+        kind: monaco.languages.CompletionItemKind.Method,
+        documentation: 'Hide the upgrade.'
+      },
+      {
+        label: 'show',
+        kind: monaco.languages.CompletionItemKind.Method,
+        documentation: 'Show the upgrade.'
       }]
     } else return new Array
   }
