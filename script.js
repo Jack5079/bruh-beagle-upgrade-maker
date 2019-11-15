@@ -25,14 +25,18 @@ function update () {
     desc: desc.textContent || 'Example description', // The <p> below the name.
     startprice: parseInt(cost.innerText, 10) || 30
   }
-  const text = `new class extends Upgrade { // All upgrades extend Upgrade.
+  const text = `
+  (async ()=>{ // This is for importing Upgrade.
+    const Upgrade = (await import('./lib/upgrade.mjs')).default // equal to 'import Upgrade from "./lib/upgrade.mjs";' for console code
+  new class extends Upgrade { // All upgrades extend Upgrade.
     meta () { // Info about your upgrade.
       return ${JSON.stringify(settings, null, 4)}
     }
     ${editor.getValue().replace(/\s/g, '') ? `onbuy () { // When your upgrade is bought
       ${editor.getValue()}
     }` : ''}
-  }`
+  }
+  })()`
 
   display.setValue(text)
 }
