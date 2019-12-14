@@ -1,23 +1,21 @@
-let cost = document.getElementById('cost')
-let code = document.getElementById('code')
-let title = document.getElementById('name')
-let desc = document.getElementById('desc')
-let buy = document.getElementById('buy')
+/* global monaco */
+const cost = document.getElementById('cost')
+const title = document.getElementById('name')
+const desc = document.getElementById('desc')
 
-let editor = monaco.editor.create(document.getElementById("container"), {
-  value: "// this code runs when the item is bought",
-  language: "javascript",
+const editor = monaco.editor.create(document.getElementById('container'), {
+  value: '// this code runs when the item is bought',
+  language: 'javascript',
   theme: 'vs-dark'
-});
+})
 
-let display = monaco.editor.create(document.getElementById("display"), {
-  language: "javascript",
+const display = monaco.editor.create(document.getElementById('display'), {
+  language: 'javascript',
   readOnly: true,
   theme: 'vs-dark'
-});
+})
 
 editor.model.onDidChangeContent(update) // onchange
-
 
 function update () {
   const settings = {
@@ -25,10 +23,8 @@ function update () {
     desc: desc.textContent || 'Example description', // The <p> below the name.
     startprice: parseInt(cost.innerText, 10) || 30
   }
-  const text = `
-  (async ()=>{ // This is for importing Upgrade.
-    const Upgrade = (await import('./lib/upgrade.mjs')).default // equal to 'import Upgrade from "./lib/upgrade.mjs";' for console code
-  new class extends Upgrade { // All upgrades extend Upgrade.
+  const text = `import('./lib/upgrade.mjs').then(module=>{
+    new class extends module.default { // All upgrades extend Upgrade.
     meta () { // Info about your upgrade.
       return ${JSON.stringify(settings, null, 4)}
     }
@@ -36,15 +32,12 @@ function update () {
       ${editor.getValue()}
     }` : ''}
   }
-  })()`
+  })`
 
   display.setValue(text)
 }
 
 document.querySelectorAll('[contenteditable]').forEach(e => e.addEventListener('keyup', update))
-
-
-
 
 // the autocomplete
 monaco.languages.registerCompletionItemProvider('javascript', {
@@ -75,7 +68,7 @@ monaco.languages.registerCompletionItemProvider('javascript', {
         kind: monaco.languages.CompletionItemKind.Method,
         documentation: 'Show the upgrade.'
       }]
-    } else return new Array
+    } else return []
   }
 }
 )
