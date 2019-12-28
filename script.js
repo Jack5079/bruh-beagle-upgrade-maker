@@ -24,51 +24,62 @@ function update () {
     startprice: parseInt(cost.innerText, 10) || 30
   }
   const text = `import('./lib/upgrade.mjs').then(module=>{
-    new class extends module.default { // All upgrades extend Upgrade.
-    meta () { // Info about your upgrade.
-      return ${JSON.stringify(settings, null, 4)}
-    }
-    ${editor.getValue().replace(/\s/g, '') ? `onbuy () { // When your upgrade is bought
+    class MyUpgrade extends module.default { // All upgrades extend Upgrade.
+    ${
+      editor.getValue().replace(/\s/g, '')
+        ? `onbuy () { // When your upgrade is bought
       ${editor.getValue()}
-    }` : ''}
+    }`
+        : ''
+    }
   }
+
+  new MyUpgrade(${JSON.stringify(settings, null, 4)})
   })`
 
   display.setValue(text)
 }
 
-document.querySelectorAll('[contenteditable]').forEach(e => e.addEventListener('keyup', update))
+document
+  .querySelectorAll('[contenteditable]')
+  .forEach(e => e.addEventListener('keyup', update))
 
 // the autocomplete
 monaco.languages.registerCompletionItemProvider('javascript', {
   triggerCharacters: ['.'],
   // Function to generate autocompletion results
   provideCompletionItems: function (model, position, token) {
-    const textUntilNow = model.getValueInRange({ startLineNumber: 1, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column })
+    const textUntilNow = model.getValueInRange({
+      startLineNumber: 1,
+      startColumn: 1,
+      endLineNumber: position.lineNumber,
+      endColumn: position.column
+    })
     if (textUntilNow.endsWith('this.')) {
-      return [{
-        label: 'price',
-        kind: monaco.languages.CompletionItemKind.Property,
-        detail: 'Number',
-        documentation: 'The price of the upgrade. Defaults to 30.'
-      },
-      {
-        label: 'html',
-        kind: monaco.languages.CompletionItemKind.Property,
-        detail: 'HTMLDivElement',
-        documentation: 'The HTML <div> containing the upgrade.'
-      },
-      {
-        label: 'hide',
-        kind: monaco.languages.CompletionItemKind.Method,
-        documentation: 'Hide the upgrade.'
-      },
-      {
-        label: 'show',
-        kind: monaco.languages.CompletionItemKind.Method,
-        documentation: 'Show the upgrade.'
-      }]
+      return [
+        {
+          label: 'price',
+          kind: monaco.languages.CompletionItemKind.Property,
+          detail: 'Number',
+          documentation: 'The price of the upgrade. Defaults to 30.'
+        },
+        {
+          label: 'html',
+          kind: monaco.languages.CompletionItemKind.Property,
+          detail: 'HTMLDivElement',
+          documentation: 'The HTML <div> containing the upgrade.'
+        },
+        {
+          label: 'hide',
+          kind: monaco.languages.CompletionItemKind.Method,
+          documentation: 'Hide the upgrade.'
+        },
+        {
+          label: 'show',
+          kind: monaco.languages.CompletionItemKind.Method,
+          documentation: 'Show the upgrade.'
+        }
+      ]
     } else return []
   }
-}
-)
+})
