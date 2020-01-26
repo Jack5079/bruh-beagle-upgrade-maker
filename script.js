@@ -24,17 +24,15 @@ function update () {
     startprice: parseInt(cost.innerText, 10) || 30
   }
   const text = `import('./lib/upgrade.mjs').then(module=>{
-    class MyUpgrade extends module.default { // All upgrades extend Upgrade.
+    const up = new module.default(${JSON.stringify(settings, null, 4)})
     ${
       editor.getValue().replace(/\s/g, '')
-        ? `onbuy () { // When your upgrade is bought
+        ? `up.addEventListener('buy', function () { // When your upgrade is bought
       ${editor.getValue()}
     }`
         : ''
     }
   }
-
-  new MyUpgrade(${JSON.stringify(settings, null, 4)})
   })`
 
   display.setValue(text)

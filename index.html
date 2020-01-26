@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bruh Beagle 2 Upgrade Maker</title>
-    <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://unpkg.com/monaco-editor@0.7.0/min/vs/loader.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Bark Beagle Upgrade Maker</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/monaco-editor@0.7.0/min/vs/loader.js"
+    ></script>
     <script>
-      require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.7.0/min/vs' } });
+      require.config({
+        paths: { vs: 'https://unpkg.com/monaco-editor@0.7.0/min/vs' }
+      })
 
       // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
       // the default worker url location (used when creating WebWorkers). The problem here is that
@@ -21,12 +25,11 @@
         self.MonacoEnvironment = {
           baseUrl: 'https://unpkg.com/monaco-editor@0.7.0/min/'
         };
-        importScripts(https://unpkg.com/monaco-editor@0.7.0/min/vs/base/worker/workerMain.js');`
-          )}`;
+        importScripts(https://unpkg.com/monaco-editor@0.7.0/min/vs/base/worker/workerMain.js');`)}`
         }
-      };
+      }
 
-      require(["vs/editor/editor.main"], () => {
+      require(['vs/editor/editor.main'], () => {
         let scr = document.createElement('script')
         scr.src = 'script.js'
         scr.defer = true
@@ -50,9 +53,6 @@
       </fieldset>
     </div>
 
-    <div id="display">
-
-    </div>
+    <div id="display"></div>
   </body>
-
 </html>
